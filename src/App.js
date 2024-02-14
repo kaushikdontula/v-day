@@ -31,6 +31,7 @@ function PictureGallery() {
     'image5.png',
     'image6.png',
     'image7.png',
+    'image8.png'
     // Add more images as needed
   ];
 
@@ -60,7 +61,7 @@ function PictureGallery() {
       >
         {images.map((image, index) => (
           <div key={index}>
-            <img src={`/${image}`} alt={`Image ${index + 1}`} />
+            <img src={`/v-day/${image}`} alt={`Image ${index + 1}`} />
           </div>
         ))}
       </Carousel>
