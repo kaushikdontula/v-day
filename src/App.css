@@ -205,3 +205,83 @@ carousel-container {
   margin: 50px auto; /* Center the paragraph horizontally and provide some space from the top */
   text-align: center;
 }
+
+
+/* App.css */
+
+/* Add styles for the modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: #f7b7c3; /* Light pink background */
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.modal-content img {
+  max-width: 70%; /* Adjust the maximum width of the image */
+  border-radius: 10px;
+  margin-bottom: 20px; /* Add some space below the image */
+}
+
+.modal-content .buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-content .buttons button {
+  padding: 10px 20px; /* Adjust padding as needed */
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 10px; /* Add margin between buttons */
+}
+
+.modal-content .buttons button:hover {
+  background-color: #d32f2f; /* Dark pink color on hover */
+  color: #fff; /* White text color on hover */
+}
+
+.image-container {
+  background-color: #f7b7c3; /* Light pink background */
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-container img {
+  max-width: 50%; /* Set maximum width for the image */
+  max-height: 50%; /* Set maximum height for the image */
+  border-radius: 10px; /* Rounded edges */
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.buttons button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.buttons button:hover {
+  background-color: #d32f2f; /* Dark pink color on hover */
+  color: #fff; /* White text color on hover */
+}
+
+

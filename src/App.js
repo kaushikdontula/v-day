@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-
 
 // Animated hearts background component
 function HeartsBackground() {
@@ -24,14 +23,14 @@ function HeartsBackground() {
 function PictureGallery() {
   // Array of images of you and your girlfriend
   const images = [
-    'image1.png',
-    'image2.png',
-    'image3.png',
-    'image4.png',
-    'image5.png',
-    'image6.png',
-    'image7.png',
-    'image8.png'
+    { src: 'image1.png', rotate: 0 }, // Default rotation
+    { src: 'image2.png', rotate: 0 }, // Default rotation
+    { src: 'image3.png', rotate: 0 }, // Default rotation
+    { src: 'image4.png', rotate: 0 }, // Default rotation
+    { src: 'image5.png', rotate: 0 }, // Default rotation
+    { src: 'image6.png', rotate: 90 }, // Rotate right by 90 degrees
+    { src: 'image7.png', rotate: -90 }, // Rotate left by 90 degrees
+    { src: 'image8.png', rotate: 0 } // Default rotation
     // Add more images as needed
   ];
 
@@ -60,14 +59,15 @@ function PictureGallery() {
         partialVisible={true} // Show only one picture at a time
       >
         {images.map((image, index) => (
-          <div key={index}>
-            <img src={`/v-day/${image}`} alt={`Image ${index + 1}`} />
+          <div key={index} style={{ transform: `rotate(${image.rotate}deg)` }}>
+            <img src={`/v-day/${image.src}`} alt={`Image ${index + 1}`} />
           </div>
         ))}
       </Carousel>
     </div>
   );
 }
+
 
 // Cute moments paragraph component
 function CuteMoments() {
@@ -83,9 +83,7 @@ function CuteMoments() {
   );
 }
 
-
-
-function Quiz() {
+function Quiz({ onQuizComplete }) {
   // Quiz questions about you and your relationship
   const questions = [
     { 
@@ -165,13 +163,19 @@ function Quiz() {
     return score;
   };
 
+  useEffect(() => {
+    if (calculateScore() >= 10) {
+      setShowModal(true);
+      onQuizComplete(true);
+    }
+  }, [userAnswers]);
+
   // Function to handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    const score = calculateScore();
     setShowModal(true);
     // You can display the score in the modal
-    console.log('User Score:', score);
+    console.log('User Score:', calculateScore());
   };
 
   return (
@@ -211,6 +215,35 @@ function Quiz() {
 }
 
 function App() {
+  const [showImage100, setShowImage100] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [noHovered, setNoHovered] = useState(false);
+  const [scoreModalVisible, setScoreModalVisible] = useState(false);
+  const [byeModalVisible, setByeModalVisible] = useState(false);
+  const [noButtonModalVisible, setNoButtonModalVisible] = useState(false);
+
+  const handleQuizComplete = (isComplete) => {
+    setShowImage100(isComplete);
+  };
+
+  const handleYesButtonClick = () => {
+    setByeModalVisible(true);
+  };
+
+  const handleNoButtonClick = () => {
+    setNoButtonModalVisible(true);
+  };
+
+  const handleCloseModals = () => {
+    setScoreModalVisible(false);
+    setByeModalVisible(false);
+    setNoButtonModalVisible(false);
+  };
+
+  const handleCloseImage100Modal = () => {
+    setShowImage100(false);
+  };
+
   return (
     <div className="App">
       <HeartsBackground />
@@ -218,9 +251,61 @@ function App() {
         <h1 style={{ color: 'white' }}>Happy 6th Valentine's Day together Baby G</h1>
       </header>
       <div className="content">
-        <PictureGallery />
-        <CuteMoments />
-        <Quiz />
+        {!showImage100 && (
+          <>
+            <PictureGallery />
+            <CuteMoments />
+            <Quiz onQuizComplete={handleQuizComplete} />
+          </>
+        )}
+        {showImage100 && (
+          <div className="modal">
+            <div className="modal-content">
+              <button className="close-button" onClick={handleCloseImage100Modal}>X</button>
+              <h2 style={{ color: 'white' }}>Yay! You know me now.</h2>
+              <div className="image-container">
+                <img
+                  src="/v-day/image100.png"
+                  alt="Image 100"
+                  onMouseEnter={() => setHovered(true)}
+                  onMouseLeave={() => setHovered(false)}
+                />
+              </div>
+              <div className="buttons">
+                <button onClick={handleNoButtonClick} onMouseEnter={() => setNoHovered(true)} onMouseLeave={() => setNoHovered(false)}>
+                  {noHovered ? 'Yes' : 'No'}
+                </button>
+                <button onClick={handleYesButtonClick}>Yes</button>
+              </div>
+            </div>
+          </div>
+        )}
+        {scoreModalVisible && (
+          <div className="modal">
+            <div className="modal-content">
+              <h2 style={{ color: 'white' }}>Your Score</h2>
+              <button onClick={handleCloseModals}>Close</button>
+            </div>
+          </div>
+        )}
+        {byeModalVisible && (
+          <div className="modal">
+            <div className="modal-content">
+              <h2 style={{ color: 'white' }}>Bye! See you next year</h2>
+              <div className="heart-animation"></div>
+              <button onClick={handleCloseModals}>Close</button>
+            </div>
+          </div>
+        )}
+        {noButtonModalVisible && (
+          <div className="modal">
+            <div className="modal-content">
+              <h2 style={{ color: 'white' }}>That's so sad :( Maybe next year I guess...</h2>
+              <div className="heart-animation"></div>
+              <button onClick={handleCloseModals}>Close</button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
